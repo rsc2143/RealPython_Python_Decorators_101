@@ -1,0 +1,55 @@
+We can construct a decorator as shown below. Note that the my_decorator function takes a function as an argument, defines a wrapper function inside the decorator function such that before calling the argument function, certain code is executed by the wrapper function. This way, the decorator is essentially a wrapper function. At last, we reassign the function we want to decorate by assigning the function as argument to the decorator function.
+
+### Python code below ###
+def my_decorator(param_function):
+    def wrapper():
+        print("The decorator function has started")
+        param_function()
+        print("The decorator function has ended")
+    return wrapper
+
+def sample_func():
+    print("The function is printing")
+
+sample_func = my_decorator(param_function = sample_func)
+
+sample_func
+#<function __main__.my_decorator.<locals>.wrapper()>
+
+sample_func()
+#The decorator function has started
+#The function is printing
+#The decorator function has ended
+
+### Python code ends ###
+
+Next, we will create a decorator for a function which will execute the function only if the time of the day is between 0700 hrs to 2200 hrs
+
+### Python code below ###
+from datetime import datetime
+
+def execute_only_during_day(param_function):
+    def wrapper():
+        if(7 <= datetime.now().hour <= 22):
+            print("Decorator starting")
+            param_function()
+        else:
+            print("Time to sleep. Wont execute argument function")
+    return wrapper
+
+def it_is_day():
+    print("It is day")
+
+it_is_day = execute_only_during_day(param_function = it_is_day)
+it_is_day
+#<function __main__.execute_only_during_day.<locals>.wrapper()>
+
+it_is_day()
+#Decorator starting
+#It is day
+
+### Python code ends ###
+
+        
+
+

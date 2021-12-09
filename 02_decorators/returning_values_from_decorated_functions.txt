@@ -1,0 +1,57 @@
+We can return values from functions if we write the decorator as follows:
+
+### Python code below ###
+def decorator_with_return_value_functions(param_function):
+    def wrapper(*args, **kwargs):
+        print("Decorator started")
+        return param_function(*args, **kwargs)
+        print("Decorator ended")
+    return wrapper
+
+@decorator_with_return_value_functions
+def add_10_and_print(param_number):
+    print("add 10 function started")
+    return param_number + 10
+
+add_10_and_print
+#<function decorator_with_return_value_functions.<locals>.wrapper at 0x7fe7a1b400e0>
+
+add_10_and_print(100)
+#Decorator started
+#add 10 function started
+#110
+
+### Python code ends ###
+
+We have to note that print("Decorator ended") was not printed as returning of the function was done just before that line in the decorator function. Therefore, we can store the return value of the function and then execute our statement, and return the return value at the end. This is as shown below:
+
+### Python code below ###
+def decorator_with_return_value_function(param_function):
+    def wrapper(*args, **kwargs):
+        print("Decorator started")
+        return_value_of_function = param_function(*args, **kwargs)
+        print("Decorator ended")
+        return return_value_of_function
+    return wrapper
+
+@decorator_with_return_value_function
+def add_10_and_print(param_number):
+    print("add 10 function started")
+    return param_number + 10
+
+add_10_and_print
+#<function decorator_with_return_value_function.<locals>.wrapper at 0x7fcfdfae1560>
+
+add_10_and_print(100)
+#Decorator started
+#add 10 function started
+#Decorator ended
+#110
+
+x = add_10_and_print(100)
+#Decorator started
+#add 10 function started
+#Decorator ended
+
+x
+#110

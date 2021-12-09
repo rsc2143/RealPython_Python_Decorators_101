@@ -1,0 +1,34 @@
+Functions can behave as first class objects, just like strings, integers, floats etc. For example, below we will store two functions in a list and then call those functions from the list
+
+### Python code below ###
+def say_hello(param_argument_name):
+    """This function prints 'Hello {param_argument_name}'"""
+    return f"Hello{param_argument_name}"
+
+def say_awesome(param_argument_name):
+    """This function prints 'Hey {param_argument_name}, you are awesome'"""
+    return f"Hey {param_argument_name}, you are awesome"
+
+my_list_of_functions = [say_hello, say_awesome]
+my_list_of_functions[0]
+#<function say_hello at 0x7feb310dc710>
+my_list_of_functions[1]
+#<function say_awesome at 0x7feb310dc4d0>
+my_list_of_functions[0]('Rohit')
+#'HelloRohit'
+my_list_of_functions[1]('Peter')
+#'Hey Peter, you are awesome'
+### Python code ends ###
+
+Functions can also be passed into other functions just like any other object. Fow example, below we will make a greeter_function which will have the above two functions as arguments.
+
+### Python code below ###
+def greet_bob(param_function):
+    return(param_function('Bob'))
+
+greet_bob(say_hello)
+#'HelloBob'
+greet_bob(say_awesome)
+#'Hey Bob, you are awesome'
+### Python code ends ###
+

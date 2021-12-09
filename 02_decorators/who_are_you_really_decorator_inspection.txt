@@ -1,0 +1,71 @@
+Look at the following example below
+
+### Python code below ###
+
+def decorator_with_return_value(param_function):
+    def wrapper(*args, **kwargs):
+        print("Decorator starting")
+        return_value = param_function(*args, **kwargs)
+        print("Decorator ended")
+        return return_value
+    return wrapper
+
+@decorator_with_return_value
+def add_10(param_number):
+    print("add_10 function started")
+    return param_number + 10
+
+add_10
+#<function decorator_with_return_value.<locals>.wrapper at 0x7faf352e1560>
+
+x = add_10(100)
+#Decorator starting
+#add_10 function started
+#Decorator ended
+
+x
+#110
+
+add_10.__name__
+#'wrapper'
+
+### Python code ends ###
+
+We can see that since the add_10 function was decorated using the decorator decorator_with_return_value, the dunder __name__ for add_10 function returns wrapper instead of add_10, which is not expected.Therefore, for the function to retain its true properties, we will use 'functools' package and the 'wraps' functionality of that package as shown below
+
+### Python code below ###
+
+import functools
+def decorator_with_return_value(param_function):
+    @functools.wraps(param_function)
+    def wrapper(*args, **kwargs):
+        print("Decorator starting")
+        return_value = param_function(*args, **kwargs)
+        print("Decorator ended")
+        return return_value
+    return wrapper
+
+@decorator_with_return_value
+def add_10(param_number):
+    print("add_10 function started")
+    return param_number + 10
+
+add_10
+#<function add_10 at 0x7fc3409e1560>
+
+x = add_10(100)
+#Decorator starting
+#add_10 function started
+#Decorator ended
+
+x
+#110
+
+add_10.__name__
+#'add_10'
+
+### Python code ends ###
+
+As can be seen, now the function is returning the expected value for dunder __name__.
+
+

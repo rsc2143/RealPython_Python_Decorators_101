@@ -1,0 +1,88 @@
+For the debug decorator, we are going to print the name of the function being called as well as the arguments that are passed to it. The code is as below:
+
+### Python code below ###
+
+import functools
+
+def debug_decorator(param_function):
+    @functools.wraps(param_function)
+    def debug_wrapper(*args, **kwargs):
+        args_repr = [repr(a) for a in args]
+        kwargs_repr = [f"{k} = {v!r}" for k, v in kwargs.items()]
+        all_arguments = ", ".join(args_repr + kwargs_repr)
+        print(f"Calling {param_function.__name__!r}({all_arguments})")
+        return_value = param_function(*args, **kwargs)
+        print(f"{param_function.__name__!r} returned {return_value!r}")
+        return return_value
+    return debug_wrapper
+
+@debug_decorator
+def example_function(param_first_arg, param_second_arg = None):
+    return f"{param_first_arg + param_second_arg}"
+
+example_function(10,20)
+#Calling 'example_function'(10, 20)
+#'example_function' returned '30'
+#'30'
+
+example_function(10,param_second_arg = 20)
+#Calling 'example_function'(10, param_second_arg = 20)
+#'example_function' returned '30'
+#'30'
+
+example_function(param_first_arg = 10,param_second_arg = 20)
+#Calling 'example_function'(param_first_arg = 10, param_second_arg = 20)
+#'example_function' returned '30'
+#'30'
+
+### Python code ends ###
+
+We can see the actual use case of the debug decorator by an example given below.
+We will apply the debug decorator to a standard library function of math.factorial and check the occurance of the function whenever it is called inside another function. This is done as follows:
+
+### Python code below ###
+import math
+import functools
+
+def debug_decorator(param_function):
+    @functools.wraps(param_function)
+    def debug_wrapper(*args, **kwargs):
+        args_repr = [repr(a) for a in args]
+        kwargs_repr = [f"{k} = {v!r}" for k, v in kwargs.items()]
+        all_arguments = ", ".join(args_repr + kwargs_repr)
+        print(f"Calling {param_function.__name__!r}({all_arguments})")
+        return_value = param_function(*args, **kwargs)
+        print(f"{param_function.__name__!r} returned {return_value!r}")
+        return return_value
+    return debug_wrapper
+
+math.factorial = debug_decorator(math.factorial)
+
+def approximate_e(terms = 18):
+    return sum(1/math.factorial(n) for n in range(terms))
+
+approximate_e(10)
+#Calling 'factorial'(0)
+#'factorial' returned 1
+#Calling 'factorial'(1)
+#'factorial' returned 1
+#Calling 'factorial'(2)
+#'factorial' returned 2
+#Calling 'factorial'(3)
+#'factorial' returned 6
+#Calling 'factorial'(4)
+#'factorial' returned 24
+#Calling 'factorial'(5)
+#'factorial' returned 120
+#Calling 'factorial'(6)
+#'factorial' returned 720
+#Calling 'factorial'(7)
+#'factorial' returned 5040
+#Calling 'factorial'(8)
+#'factorial' returned 40320
+#Calling 'factorial'(9)
+#'factorial' returned 362880
+#2.7182815255731922
+
+### Python code ends ###
+

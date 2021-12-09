@@ -1,0 +1,36 @@
+Functions can return another functions defined inside them. This way, child functions can be exposed out of scope of the inner functions as follows:
+
+### Python code below ###
+def parent_with_arg(param_num):
+
+    def first_child():
+        print("This is the first child function")
+
+    def second_child():
+        print("This is the second child function")
+
+    if(param_num == 1):
+        return first_child
+
+    else:
+        return second_child
+
+parent_with_args()
+#Traceback (most recent call last):
+#  File "<stdin>", line 1, in <module>
+#TypeError: parent_with_arg() missing 1 required positional argument: 'param_num'
+
+parent_with_args(1)
+#<function __main__.parent_with_arg.<locals>.first_child()>
+
+parent_with_args(2)
+<function __main__.parent_with_arg.<locals>.second_child()>
+
+parent_with_arg(1)()
+This is the first child functio
+
+parent_with_arg(2)()
+This is the second child function
+
+### Python code ends ###
+

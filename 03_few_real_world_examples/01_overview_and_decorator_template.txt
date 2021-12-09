@@ -1,0 +1,15 @@
+Below is a decorator temmplate:
+
+### Python code below ###
+import functools
+
+def decorator(param_function):
+    @functools.wraps(param_function)
+    def wrapper(*args, **kwargs):
+        # Decorator does something before function call
+        return_value = param_function(*args, **kwargs)
+        # Decorator does something after function call
+        return return_value
+    return wrapper
+
+

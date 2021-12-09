@@ -1,0 +1,110 @@
+We can decorate functions with arguments by passing args and kwargs into the function. 
+
+But first, let's see if we can decorate a function which does not return anything and has a single argument without using *args and **kwargs. It can be done in the following way:
+
+### Python code below ###
+def decorator_for_function_with_argument(param_function):
+    def wrapper(param_single_argument):
+        print("Decorator starting")
+        param_function(param_single_argument)
+        print("Decorator ended")
+    return wrapper
+
+def print_hello_bob():
+    print("Hellow Bob")
+
+def print_hello_name(param_name):
+    print(f"Hello {param_name}")
+
+print_hello_bob = decorator_for_function_with_argument(print_hello_bob)
+
+print_hello_bob
+#<function decorator_for_function_with_argument.<locals>.wrapper at 0x7fe7a1b239e0>
+
+print_hello_bob()
+#Traceback (most recent call last):
+#  File "<stdin>", line 1, in <module>
+#TypeError: wrapper() missing 1 required positional argument: 'param_single_argument'
+
+print_hello_name = decorator_for_function_with_argument(print_hello_name)
+
+print_hello_name
+#<function decorator_for_function_with_argument.<locals>.wrapper at 0x7fe7a19bd320>
+
+print_hello_name('Rohit')
+#Decorator starting
+#Hello Rohit
+#Decorator ended
+
+### Python code ends ###
+
+
+Note that if a function returns a value, then the above code wont work as expected. It wont throw an error, but it will not return the expected value either.
+
+### Python code below ###
+def decorator_for_function_with_argument(param_function):
+    def wrapper(param_single_argument):
+        print("Decorator starting")
+        param_function(param_single_argument)
+        print("Decorator ended")
+    return wrapper
+
+@decorator_for_function_with_argument
+def add_10(param_number):
+    return param_number + 10
+
+add_10(100)
+#Decorator starting
+#Decorator ended
+
+### Python code ends ###
+
+We will tackle functions which return values in next lesson, but right now, we need to make the decorator flexible enough such that it either takes an argument or wont take an argument, the decorator would work as expected without throwing any error. For this flexibility, we will use *args and **kwargs as follows:
+
+### Python code below ###
+def flexible_decorator_with_args_and_kwargs(param_function):
+    def wrapper(*args, **kwargs):
+        print("Decorator started")
+        param_function(*args, **kwargs)
+        print("Decorator ended")
+    return wrapper
+
+@flexible_decorator_with_args_and_kwargs
+def hello_bob():
+    print("Hello Bob")
+
+@flexible_decorator_with_args_and_kwargs
+def hello_name(param_name):
+    print(f"Hello {param_name}")
+
+@flexible_decorator_with_args_and_kwargs
+def add_10(param_number):
+    return param_number + 10
+
+add_10
+#<function flexible_decorator_with_args_and_kwargs.<locals>.wrapper at 0x7fe7a1b23ef0>
+
+add_10(100)
+#Decorator started
+#Decorator ended
+
+hello_bob
+#<function flexible_decorator_with_args_and_kwargs.<locals>.wrapper at 0x7fe7a1b23b90>
+
+hello_bob()
+#Decorator started
+#Hello Bob
+#Decorator ended
+
+hello_name
+#<function flexible_decorator_with_args_and_kwargs.<locals>.wrapper at 0x7fe7a1b23d40>
+
+hello_name('Rohit')
+#Decorator started
+#Hello Rohit
+#Decorator ended
+
+### Python code ends ###
+
+As can be seen, only the add_10 function which returns a value did not perform as expected, although it didn't throw an error as well. Return function decorators will be discussed in next lesson.
+

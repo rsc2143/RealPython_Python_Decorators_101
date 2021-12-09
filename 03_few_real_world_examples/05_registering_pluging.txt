@@ -1,0 +1,51 @@
+We can register functions as plugins using decorators as shown below:
+
+### Python code below ###
+
+import random
+PLUGINS = dict()
+
+def register_decorator(param_function):
+    PLUGINS[param_function.__name__] = param_function
+    return param_function
+
+@register_decorator
+def say_hello(param_name):
+    return f"Hello {param_name}"
+
+@register_decorator
+def be_awesome(param_name):
+    return f"Hey {param_name}, you are awesome"
+
+PLUGINS
+#{'say_hello': <function say_hello at 0x7fa5f9352290>, 'be_awesome': <function be_awesome at 0x7fa5f93523b0>}
+
+def randomly_greet(param_name):
+    greeter, greeter_function = random.choice(list(PLUGINS.items()))
+    print(f"Using {greeter}")
+    return greeter_function(param_name)
+
+randomly_greet('Rohit')
+#Using say_hello
+#'Hello Rohit'
+
+randomly_greet('Rohit')
+#Using be_awesome
+#'Hey Rohit, you are awesome'
+
+randomly_greet('Rohit')
+#Using be_awesome
+#'Hey Rohit, you are awesome'
+
+randomly_greet('Rohit')
+#Using be_awesome
+#'Hey Rohit, you are awesome'
+
+randomly_greet('Rohit')
+#Using say_hello
+#'Hello Rohit'
+
+### Python code ends ###
+
+
+

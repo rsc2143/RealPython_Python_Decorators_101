@@ -1,0 +1,41 @@
+Functions can be defined inside a function, but the scope of the inner function is only within the outer function definition. See below for example:
+
+### Python code below ###
+def parent():
+    print("parent function executed")
+    def first_child():
+        print("first_child function executed")
+    def second_child():
+        print("second_child function executed")
+    second_child()
+    first_child()
+
+parent()
+#parent function executed
+#second_child function executed
+#first_child function executed
+
+### Python code ends ###
+
+Note that the scope of the functions first_child and second_child is only limited to parent function as shown below
+
+### Python code below ###
+first_child()
+#Traceback (most recent call last):
+#  File "<stdin>", line 1, in <module>
+#NameError: name 'first_child' is not defined
+
+second_child()
+#Traceback (most recent call last):
+#  File "<stdin>", line 1, in <module>
+#NameError: name 'second_child' is not defined
+
+parent()
+#parent function executed
+#second_child function executed
+#first_child function executed
+
+### Python code ends ###
+
+
+

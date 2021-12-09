@@ -1,0 +1,23 @@
+There is syntactic sugar available for decorators as shown below:
+### Python code below ###
+def my_decorator(param_function):
+    def wrapper():
+        print("Decorator starting")
+        param_function()
+        print("Decorator ending")
+    return wrapper
+
+@my_decorator
+def sample_print_function():
+    print("Inside argument function now")
+
+sample_print_function
+#<function __main__.my_decorator.<locals>.wrapper()>
+
+sample_print_function()
+#Decorator starting
+#Inside argument function now
+#Decorator ending
+
+### Python code ends ###
+

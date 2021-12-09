@@ -1,0 +1,16 @@
+We can use decorators by importing them from a .py file as shown below. Please reference decorators.py file in this folder for this example
+
+### Python code starts ###
+from decorators import my_decorator
+
+@my_decorator
+def sample_pring_fun():
+    print("Printing from inside function which is decorated")
+
+sample_print_fun()
+#Decorator starting
+#Printing from inside function which is decorated
+#Decorator ending
+
+### Python code ends ###
+

@@ -1,0 +1,25 @@
+Below is an example of slowing down code using a decorator. Note that slowing down code can be useful while checking APIs.
+
+### Python code below ###
+import functools
+import time
+
+def slow_down_decorator(param_function):
+    @functools.wraps(param_function)
+    def wrapper_slow_down(*args, **kwargs):
+        time.sleep(1)
+        return param_function(*args, **kwargs)
+    return wrapper_slow_down
+
+@slow_down_decorator
+def countdown(from_number):
+    if(from_number == 0):
+        print("Ending countdown")
+    else:
+        print(from_number)
+        countdown(from_number - 1)
+
+countdown(5)
+
+### Python code ends ###
+
